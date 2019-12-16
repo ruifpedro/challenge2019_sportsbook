@@ -1,24 +1,19 @@
 package models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.UUID;
 
 //TODO - move into a models Module
-public class StakeMsg {
+public class ThresholdMsg {
 	private final UUID uuid;
 	private long timestamp;
 	private final String account;
-	private final int stake;
+	private final int accumulatedStake;
 
-	@JsonCreator
-	public StakeMsg(@JsonProperty("account") String account, @JsonProperty("stake") int stake) {
+	public ThresholdMsg(String account, int accumulatedStake) {
 		this.uuid = UUID.randomUUID();
 		this.timestamp = System.currentTimeMillis();
 		this.account = account;
-		this.stake = stake;
-
+		this.accumulatedStake = accumulatedStake;
 	}
 
 	public UUID getUuid() {
@@ -33,7 +28,7 @@ public class StakeMsg {
 		return account;
 	}
 
-	public int getStake() {
-		return stake;
+	public int getAccumulatedStake() {
+		return accumulatedStake;
 	}
 }

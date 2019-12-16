@@ -32,3 +32,5 @@ out/
 *.iml
 *.ipr
 *.iws
+/threshold_engine/target/
+/threshold_engine/target/classes/
