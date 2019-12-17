@@ -12,10 +12,10 @@ import serdes.StakeMsgSerde;
 import java.time.Duration;
 import java.util.Properties;
 
-public class StakeWatcher {
+public class Engine {
 
 
-	public StakeWatcher() {
+	public Engine() {
 		//TODO - move into external config
 		Properties properties = new Properties();
 		properties.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");

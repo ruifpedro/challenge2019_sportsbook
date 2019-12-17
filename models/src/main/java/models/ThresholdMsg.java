@@ -2,7 +2,6 @@ package models;
 
 import java.util.UUID;
 
-//TODO - move into a models Module
 public class ThresholdMsg {
 	private final UUID uuid;
 	private long timestamp;

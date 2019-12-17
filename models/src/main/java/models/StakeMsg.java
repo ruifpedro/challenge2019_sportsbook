@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-//TODO - move into a models Module
 public class StakeMsg {
 	private final UUID uuid;
 	private long timestamp;
