@@ -1,0 +1,8 @@
+kafkastream:
+  bootstrap.servers: "127.0.0.1:9092"
+  application.id: "test-kafka-streams"
+engine:
+  threshold: 100
+  input_topic: "test_in"
+  output_topic: "test_out"
+  window_size: "PT5S"
