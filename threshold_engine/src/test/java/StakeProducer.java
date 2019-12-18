@@ -6,6 +6,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import serialization.StakeMsgSerializer;
 
 import java.util.Properties;
+import java.util.stream.IntStream;
 
 public class StakeProducer {
 	public static void main(String[] args) {
@@ -16,10 +17,12 @@ public class StakeProducer {
 
 		KafkaProducer<String, StakeMsg> producer = new KafkaProducer<>(properties);
 
+		IntStream.range(0, 10).forEach(value -> {
+				ProducerRecord<String, StakeMsg> record = new ProducerRecord<>("test_in", new StakeMsg("A", 100));
 
-		ProducerRecord<String, StakeMsg> record = new ProducerRecord<>("test_in", new StakeMsg("A", 100));
+				producer.send(record);
+		});
 
-		producer.send(record);
 
 		producer.close();
 	}

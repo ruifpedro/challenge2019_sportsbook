@@ -3,18 +3,23 @@ package engine;
 import config.EngineConfig;
 import models.StakeMsg;
 import models.ThresholdMsg;
+import org.apache.kafka.common.serialization.Deserializer;
+import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
-import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.Materialized;
-import org.apache.kafka.streams.kstream.TimeWindows;
+import org.apache.kafka.streams.kstream.*;
+import serialization.ThresholdMsgJsonDeserializer;
+import serialization.ThresholdMsgJsonSerializer;
 
 import java.time.Duration;
 import java.util.Properties;
 
 public class Engine {
+
+	private Serdes.WrapperSerde<ThresholdMsg> thresholdSerde = new Serdes.WrapperSerde<>(new ThresholdMsgJsonSerializer(), new ThresholdMsgJsonDeserializer());
 
 	public Engine(Properties kafkaStreamProps, EngineConfig engineConfig) {
 
@@ -41,10 +46,27 @@ public class Engine {
 					  Materialized.with(new Serdes.StringSerde(), new Serdes.IntegerSerde())
 			  )
 			  .filter((accountKey, accumulatedStake) -> accumulatedStake >= threshold)
-			  .mapValues((accountKey, accumulatedStake) ->
-					  new ThresholdMsg(accountKey.key(), accumulatedStake))
+			  .mapValues((Windowed<String> accountKey, Integer accumulatedStake) ->
+							  new ThresholdMsg(accountKey.key(), accumulatedStake),
+					  //TODO - find a way to properly deal with a Serde for Windowed<String>
+					  Materialized.with(new Serde<>() {
+						  @Override
+						  public Serializer<Windowed<String>> serializer() {
+							  return (s, stringWindowed) -> stringWindowed.key().getBytes();
+						  }
+
+						  @Override
+						  public Deserializer<Windowed<String>> deserializer() {
+							  return (s, bytes) -> new Windowed<>(new String(bytes), new Window(0, 0) {
+								  @Override
+								  public boolean overlap(Window window) {
+									  return false;
+								  }
+							  });
+						  }
+					  }, thresholdSerde)
+			  )
 			  .toStream()
-			  //TODO - serialize outgoing POJO into JSON
 			  .to(outputTopicName);
 
 		return streamBuilder.build();
