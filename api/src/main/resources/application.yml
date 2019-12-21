@@ -3,6 +3,7 @@ stakes-controller:
   producer:
     bootstrap.servers: "127.0.0.1:9092"
 notifications-controller:
+  timeout: 100
   topicName: "test_out"
   consumer:
     bootstrap.servers: "127.0.0.1:9092"
