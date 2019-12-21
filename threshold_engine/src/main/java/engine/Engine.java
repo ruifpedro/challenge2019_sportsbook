@@ -38,6 +38,7 @@ public class Engine {
 
 		KStream<String, StakeMsg> stream = streamBuilder.stream(inputTopicName);
 
+		// TODO - find and fix the bug that causes null messages to be sent
 		stream.groupBy((streamKey, stakeMsg) -> stakeMsg.getAccount())
 			  .windowedBy(TimeWindows.of(Duration.parse(windowSize)))
 			  .aggregate(

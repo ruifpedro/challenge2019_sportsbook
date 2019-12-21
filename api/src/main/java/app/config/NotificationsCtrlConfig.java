@@ -3,13 +3,14 @@ package app.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Properties;
 
 @Component
 @ConfigurationProperties(prefix = "notifications-controller")
 public class NotificationsCtrlConfig {
 	private Properties consumer;
-	private String topicName;
+	private List<String> topics;
 	private int timeout;
 
 	public int getTimeout() {
@@ -28,20 +29,21 @@ public class NotificationsCtrlConfig {
 		this.consumer = consumer;
 	}
 
-	public String getTopicName() {
-		return topicName;
+	public List<String> getTopics() {
+		return topics;
 	}
 
-	public void setTopicName(String topicName) {
-		this.topicName = topicName;
+	public void setTopics(List<String> topics) {
+		this.topics = topics;
 	}
 
 	@Override
 	public String toString() {
 		return "NotificationsCtrlConfig{" +
 				"consumer=" + consumer +
-				", topicName='" + topicName + '\'' +
+				", topics=" + topics +
 				", timeout=" + timeout +
 				'}';
 	}
+
 }

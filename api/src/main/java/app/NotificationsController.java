@@ -19,7 +19,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,7 +36,7 @@ public class NotificationsController {
 
 	private Map<String, String> hooks = new ConcurrentHashMap<>();
 
-	private final String topicName;
+	private final List<String> topics;
 	private KafkaConsumer<String, ThresholdMsg> consumer;
 
 	private Runnable webHookHandler;
@@ -45,19 +45,19 @@ public class NotificationsController {
 
 	@Autowired
 	public NotificationsController(NotificationsCtrlConfig notificationsCtrlConfig) {
-		this.topicName = notificationsCtrlConfig.getTopicName();
+		this.topics = notificationsCtrlConfig.getTopics();
 		this.timeout = notificationsCtrlConfig.getTimeout();
 
 		var properties = notificationsCtrlConfig.getConsumer();
 		properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 		properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 
+		// create kafka consumer
 		this.consumer = new KafkaConsumer<>(properties);
-		// TODO - fix topicName being a string not a list
-		this.consumer.subscribe(Collections.singleton(this.topicName));
+		// subscribe to kafka topics
+		this.consumer.subscribe(this.topics);
 
-
-		// TODO - change into sys shutdown hook
+		// define webhook handler logic
 		webHookHandler = () -> {
 			while (running.get()) {
 				consumer.poll(timeout).forEach(record ->
@@ -80,8 +80,9 @@ public class NotificationsController {
 						}));
 			}
 		};
-		Thread webHookHandlerThread = new Thread(webHookHandler);
-		webHookHandlerThread.start();
+
+		// start the webhook handler thread
+		new Thread(webHookHandler).start();
 	}
 
 	private HttpRequest.BodyPublisher recordToJson(ConsumerRecord<String, ThresholdMsg> record) {
