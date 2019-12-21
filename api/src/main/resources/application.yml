@@ -1,0 +1,10 @@
+stakes-controller:
+  topicName: "test_in"
+  producer:
+    bootstrap.servers: "127.0.0.1:9092"
+notifications-controller:
+  topicName: "test_out"
+  consumer:
+    bootstrap.servers: "127.0.0.1:9092"
+    auto.offset.reset: "earliest"
+    group.id: "test-id-webapp-001"

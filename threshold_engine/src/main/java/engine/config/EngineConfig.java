@@ -1,4 +1,4 @@
-package config;
+package engine.config;
 
 public class EngineConfig {
 	private int threshold;

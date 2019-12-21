@@ -1,4 +1,4 @@
-package config;
+package engine.config;
 
 import java.util.Properties;
 

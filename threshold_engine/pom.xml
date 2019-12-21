@@ -13,23 +13,23 @@
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka -->
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.12</artifactId>
-            <version>2.3.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.kafka</groupId>-->
+<!--            <artifactId>kafka_2.12</artifactId>-->
+<!--            <version>2.3.1</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-streams</artifactId>
             <version>2.3.0</version>
         </dependency>
-        <dependency>
-            <groupId>pt.rfp</groupId>
-            <artifactId>api</artifactId>
-            <version>0.1</version>
-            <scope>compile</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>pt.rfp</groupId>-->
+<!--            <artifactId>api</artifactId>-->
+<!--            <version>0.1</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -61,11 +61,6 @@
             <artifactId>commons-cli</artifactId>
             <version>1.4</version>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
-        </dependency>
     </dependencies>
 
 
@@ -81,6 +76,8 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>11</release>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>

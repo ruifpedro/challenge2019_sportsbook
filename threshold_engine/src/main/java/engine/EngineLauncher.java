@@ -2,8 +2,8 @@ package engine;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import config.EngineConfig;
-import config.YamlConfig;
+import engine.config.EngineConfig;
+import engine.config.YamlConfig;
 import org.apache.commons.cli.*;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsConfig;
@@ -30,14 +30,14 @@ public class EngineLauncher {
 			System.exit(0);
 		}
 
-		//retrieve config file path from cmd args
+		//retrieve app.config file path from cmd args
 		String configFilepath = cmd.getOptionValue("c");
 
 		//create yaml object mapper
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		mapper.findAndRegisterModules();
 
-		//read yaml config
+		//read yaml app.config
 		File f = new File(configFilepath);
 		YamlConfig conf = null;
 		try {
@@ -47,13 +47,13 @@ public class EngineLauncher {
 			System.exit(0);
 		}
 
-		//kafka stream config
+		//kafka stream app.config
 		Properties kafkaStreamProps = conf.getKafkaStreamConfig();
 		//specific non user configurable properties
 		kafkaStreamProps.setProperty(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class.getName());
 		kafkaStreamProps.setProperty(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, StakeMsgSerde.class.getName());
 
-		//engine config
+		//engine app.config
 		EngineConfig engineProps = conf.getEngineConfig();
 
 		//start engine

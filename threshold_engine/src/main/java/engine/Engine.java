@@ -1,6 +1,6 @@
 package engine;
 
-import config.EngineConfig;
+import engine.config.EngineConfig;
 import models.StakeMsg;
 import models.ThresholdMsg;
 import org.apache.kafka.common.serialization.Deserializer;

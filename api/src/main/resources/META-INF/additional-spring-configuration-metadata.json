@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "stakes-controller.topic-name",
+      "type": "java.lang.String",
+      "description": "Description for stakes-controller.topic-name."
+    },
+    {
+      "name": "stakes-controller.producer.bootstrap.servers",
+      "type": "java.lang.String",
+      "description": "Description for stakes-controller.producer.bootstrap.servers."
+    },
+    {
+      "name": "notifications-controller.topic-name",
+      "type": "java.lang.String",
+      "description": "Description for notifications-controller.topic-name."
+    },
+    {
+      "name": "notifications-controller.producer.bootstrap.servers",
+      "type": "java.lang.String",
+      "description": "Description for notifications-controller.producer.bootstrap.servers."
+    }
+  ] }
