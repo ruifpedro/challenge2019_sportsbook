@@ -90,7 +90,6 @@ public class NotificationsController {
 	}
 
 	@PostMapping(path = "registerWebhook")
-	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<String> registerWebhook(@RequestBody WebHookMsg webHookMsg) {
 		Preconditions.checkNotNull(webHookMsg);
 
@@ -103,7 +102,15 @@ public class NotificationsController {
 			return new ResponseEntity<>("URL already registered", HttpStatus.NOT_ACCEPTABLE);
 		} else {
 			hooks.put(hookID, webHookMsg.getUrl());
-			return new ResponseEntity<>("Hook registered", HttpStatus.OK);
+			return new ResponseEntity<>(hookID, HttpStatus.OK);
 		}
+	}
+
+	@PutMapping(path = "deleteWebHook/{hookID}")
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteWebHook(@PathVariable String hookID) {
+		Preconditions.checkNotNull(hookID);
+		//delete hook
+		hooks.remove(hookID);
 	}
 }
