@@ -39,6 +39,12 @@
             <artifactId>kafka_2.12</artifactId>
             <version>2.3.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+            <version>2.3.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <properties>
