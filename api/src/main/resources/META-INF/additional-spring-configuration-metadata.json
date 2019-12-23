@@ -19,5 +19,30 @@
       "name": "notifications-controller.producer.bootstrap.servers",
       "type": "java.lang.String",
       "description": "Description for notifications-controller.producer.bootstrap.servers."
+    },
+    {
+      "name": "mongo.database",
+      "type": "java.lang.String",
+      "description": "Description for mongo.database."
+    },
+    {
+      "name": "mongo.host",
+      "type": "java.lang.String",
+      "description": "Description for mongo.host."
+    },
+    {
+      "name": "mongo.port",
+      "type": "java.lang.String",
+      "description": "Description for mongo.port."
+    },
+    {
+      "name": "mongo.username",
+      "type": "java.lang.String",
+      "description": "Description for mongo.username."
+    },
+    {
+      "name": "mongo.password",
+      "type": "java.lang.String",
+      "description": "Description for mongo.password."
     }
   ] }

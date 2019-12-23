@@ -2,6 +2,7 @@ package app;
 
 import app.config.NotificationsCtrlConfig;
 import app.models.WebHookMsg;
+import app.mongo.ThresholdsRepository;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import models.ThresholdMsg;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import serialization.ThresholdMsgJsonDeserializer;
 
 import java.io.IOException;
 import java.net.URI;
@@ -43,14 +45,17 @@ public class NotificationsController {
 	private AtomicBoolean running = new AtomicBoolean(true);
 	private int timeout;
 
+	private ThresholdsRepository thresholdsRepository;
+
 	@Autowired
-	public NotificationsController(NotificationsCtrlConfig notificationsCtrlConfig) {
+	public NotificationsController(NotificationsCtrlConfig notificationsCtrlConfig, ThresholdsRepository thresholdsRepository) {
 		this.topics = notificationsCtrlConfig.getTopics();
 		this.timeout = notificationsCtrlConfig.getTimeout();
+		this.thresholdsRepository = thresholdsRepository;
 
 		var properties = notificationsCtrlConfig.getConsumer();
 		properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-		properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+		properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ThresholdMsgJsonDeserializer.class.getName());
 
 		// create kafka consumer
 		this.consumer = new KafkaConsumer<>(properties);
@@ -60,24 +65,29 @@ public class NotificationsController {
 		// define webhook handler logic
 		webHookHandler = () -> {
 			while (running.get()) {
-				consumer.poll(timeout).forEach(record ->
-						hooks.values().forEach(url -> {
-							HttpRequest request = HttpRequest.newBuilder()
-															 .POST(recordToJson(record))
-															 .uri(URI.create(url))
-															 .setHeader("User-Agent", "SportsBook WH Bot")
-															 .header("Content-Type", "application/json")
-															 .build();
-							try {
-								HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-								//TODO - change into logging
-								System.out.println(response.statusCode());
-							} catch (IOException e) {
-								e.printStackTrace();
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}));
+				consumer.poll(timeout).forEach(record -> {
+					// save threshold msg do mongo db
+					thresholdsRepository.save(record.value());
+
+					// send threshold msg to all registered hooks
+					hooks.values().forEach(url -> {
+						HttpRequest request = HttpRequest.newBuilder()
+														 .POST(recordToJson(record))
+														 .uri(URI.create(url))
+														 .setHeader("User-Agent", "SportsBook WH Bot")
+														 .header("Content-Type", "application/json")
+														 .build();
+						try {
+							HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+							//TODO - change into logging
+							System.out.println(response.statusCode());
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					});
+				});
 			}
 		};
 

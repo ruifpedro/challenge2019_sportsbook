@@ -10,3 +10,9 @@ notifications-controller:
     bootstrap.servers: "127.0.0.1:9092"
     auto.offset.reset: "earliest"
     group.id: "test-id-webapp-001"
+mongo:
+  database: app
+  host: 127.0.0.1
+  port: 27017
+  username: appuser
+  password: appuser

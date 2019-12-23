@@ -30,4 +30,14 @@ public class ThresholdMsg {
 	public int getAccumulatedStake() {
 		return accumulatedStake;
 	}
+
+	@Override
+	public String toString() {
+		return "ThresholdMsg{" +
+				"uuid=" + uuid +
+				", timestamp=" + timestamp +
+				", account='" + account + '\'' +
+				", accumulatedStake=" + accumulatedStake +
+				'}';
+	}
 }

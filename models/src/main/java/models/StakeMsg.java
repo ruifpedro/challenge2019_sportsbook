@@ -35,4 +35,14 @@ public class StakeMsg {
 	public int getStake() {
 		return stake;
 	}
+
+	@Override
+	public String toString() {
+		return "StakeMsg{" +
+				"uuid=" + uuid +
+				", timestamp=" + timestamp +
+				", account='" + account + '\'' +
+				", stake=" + stake +
+				'}';
+	}
 }
