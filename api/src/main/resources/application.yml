@@ -1,18 +1,17 @@
 stakes-controller:
-  topicName: "test_in"
+  topicName: "stakes"
   producer:
-    bootstrap.servers: "127.0.0.1:9092"
+    bootstrap.servers: "kafka:9092"
 notifications-controller:
   timeout: 100
   topics:
-    - "test_out"
+    - "notifications"
   consumer:
-    bootstrap.servers: "127.0.0.1:9092"
-    auto.offset.reset: "earliest"
-    group.id: "test-id-webapp-001"
+    bootstrap.servers: "kafka:9092"
+    group.id: "notifications-webapp-001"
 mongo:
   database: app
-  host: 127.0.0.1
+  host: mongo
   port: 27017
   username: appuser
   password: appuser
