@@ -37,7 +37,7 @@ public class EngineLauncher {
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		mapper.findAndRegisterModules();
 
-		//read yaml app.config
+		//read yaml config
 		File f = new File(configFilepath);
 		YamlConfig conf = null;
 		try {
@@ -47,13 +47,13 @@ public class EngineLauncher {
 			System.exit(0);
 		}
 
-		//kafka stream app.config
+		//kafka stream config
 		Properties kafkaStreamProps = conf.getKafkaStreamConfig();
 		//specific non user configurable properties
 		kafkaStreamProps.setProperty(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class.getName());
 		kafkaStreamProps.setProperty(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, StakeMsgSerde.class.getName());
 
-		//engine app.config
+		//engine config
 		EngineConfig engineProps = conf.getEngineConfig();
 
 		//start engine
