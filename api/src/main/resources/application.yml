@@ -15,3 +15,17 @@ mongo:
   port: 27017
   username: appuser
   password: appuser
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: kafka:9092
+          auto-add-partitions: true
+      bindings:
+        input:
+          group: notifications
+kafka:
+  topics: "notifications"
+  bootstrap.server: "kafka:9092"
+  group.id: "notifications-webapp-002"

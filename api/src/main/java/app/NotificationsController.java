@@ -69,6 +69,9 @@ public class NotificationsController {
 					// save threshold msg do mongo db
 					thresholdsRepository.save(record.value());
 
+					// send to websocket
+//					pushNotification(record.value());
+
 					// send threshold msg to all registered hooks
 					hooks.values().forEach(url -> {
 						HttpRequest request = HttpRequest.newBuilder()
@@ -124,4 +127,10 @@ public class NotificationsController {
 		//delete hook
 		hooks.remove(hookID);
 	}
+
+//	@MessageMapping
+//	@SendTo("/topic/notifications")
+//	public String pushNotification(ThresholdMsg thresholdMsg) {
+//		return gson.toJson(thresholdMsg);
+//	}
 }

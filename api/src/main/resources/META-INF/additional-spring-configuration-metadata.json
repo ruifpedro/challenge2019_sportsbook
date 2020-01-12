@@ -44,5 +44,21 @@
       "name": "mongo.password",
       "type": "java.lang.String",
       "description": "Description for mongo.password."
+    },
+    {
+      "name": "notifications-controller.topics",
+      "type": "java.lang.String",
+      "description": "Description for notifications-controller.topics."
+    },
+    {
+      "name": "spring.kafka.topics",
+      "type": "java.lang.String",
+      "description": "Description for spring.kafka.topics."
+    },
+    {
+      "name": "kafka.topics",
+      "type": "java.lang.String",
+      "description": "Description for kafka.topics."
     }
-  ] }
+  ]
+}

@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Home</title>
+</head>
+
+<body>
+<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Messages</th>
+                </tr>
+                </thead>
+                <tbody id="messages">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+
+<footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script type="text/javascript">
+        /* Configuring WebSocket on Client Side */
+        var socket = new SockJS('http://localhost:8080/topic/notifications');
+
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/topic/notifications', function (message) {
+                console.log(message);
+
+                // function showMessage(message) {
+                $("#messages").append("<tr><td>" + message.body + "</td></tr>");
+                // }
+            });
+        });
+    </script>
+</footer>
+</html>
