@@ -4,7 +4,7 @@ A code challenge for a certain company
 ## Architecture
 ![diagram](images/diagram.png)
 
-##Running it
+## Running it
 ### Build
 ```bash
 mvn clean package
