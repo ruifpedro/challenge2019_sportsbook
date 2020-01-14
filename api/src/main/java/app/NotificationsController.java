@@ -122,7 +122,7 @@ public class NotificationsController {
 
 	@PutMapping(path = "deleteWebHook/{hookID}")
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteWebHook(@PathVariable String hookID) {
+	public void deleteWebHook(@PathVariable("hookID") String hookID) {
 		Preconditions.checkNotNull(hookID);
 		//delete hook
 		hooks.remove(hookID);
