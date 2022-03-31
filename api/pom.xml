@@ -14,7 +14,7 @@
     <properties>
         <start-class>app.App</start-class>
         <java.version>11</java.version>
-        <spring.version>2.2.2.RELEASE</spring.version>
+        <spring.version>2.5.12</spring.version>
         <spring.cloud.version>2.2.1.RELEASE</spring.cloud.version>
     </properties>
 
